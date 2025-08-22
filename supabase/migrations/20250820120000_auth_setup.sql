@@ -60,5 +60,13 @@ CREATE POLICY "Admins can manage company_settings" ON company_settings FOR ALL U
 -- Orders
 CREATE POLICY "Admins can manage orders" ON orders FOR ALL USING ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin') WITH CHECK ((SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
 
--- WARNING: This policy is insecure and allows any user to create and read orders if they know the client's VAT number.
-CREATE POLICY "Clients can create and read their own orders" ON orders FOR ALL USING (EXISTS (SELECT 1 FROM clients WHERE clients.vat_intra = orders.client_vat_number)) WITH CHECK (EXISTS (SELECT 1 FROM clients WHERE clients.vat_intra = orders.client_vat_number));
+-- Secure RLS policy for clients managing their own orders
+CREATE POLICY "Clients can manage their own orders" ON orders FOR ALL
+USING (
+    (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'client' AND
+    (SELECT vat_number FROM public.profiles WHERE id = auth.uid()) = client_vat_number
+)
+WITH CHECK (
+    (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'client' AND
+    (SELECT vat_number FROM public.profiles WHERE id = auth.uid()) = client_vat_number
+);

@@ -82,7 +82,7 @@ export function POS() {
       
       const orderData = {
         id: `CMD${Date.now()}`,
-        client_vat_number: profile.vat_number, // Use VAT from profile
+        client_vat_number: profile.vat_intra, // Use VAT from profile
         client_name: profile.full_name || '',
         items: cart,
         subtotal,
@@ -92,6 +92,7 @@ export function POS() {
         created_at: new Date().toISOString()
       };
 
+      console.log('Submitting order for VAT:', profile.vat_intra);
       const { error } = await supabase
         .from('orders')
         .insert([orderData]);
