@@ -80,19 +80,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithVat = async (vatNumber: string) => {
     // This is a "pretend" login for clients. It does not create a real session.
-    const { data: client, error } = await supabase
+    const { data: clients, error } = await supabase
       .from('clients')
       .select('*')
-      .eq('vat_intra', vatNumber)
-      .single();
+      .eq('vat_intra', vatNumber);
 
     if (error) {
-      showErrorToast('Client not found or an error occurred.');
+      console.error("Error fetching client by VAT:", error);
+      showErrorToast('An error occurred while searching for the client.');
       return null; // Indicate failure
     }
-    if (client) {
-      setProfile({ role: 'client', ...client });
+
+    if (!clients || clients.length === 0) {
+      showErrorToast('No client found with that VAT number.');
+      return null; // Indicate no client found
     }
+
+    // If multiple clients have the same VAT, just use the first one.
+    // Depending on business logic, you might want to handle this differently.
+    const client = clients[0];
+    
+    setProfile({ role: 'client', ...client });
     return { client };
   };
 
