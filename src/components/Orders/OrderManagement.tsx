@@ -102,35 +102,35 @@ const DetailedOrdersList: React.FC<{ orders: Order[] }> = ({ orders }) => (
     ) : (
       <div className="space-y-4 max-h-96 overflow-y-auto">
         {orders.map((order) => (
-          <div key={order.id} className="border border-gray-200 rounded-lg p-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center space-x-2">
-                <User size={16} className="text-gray-500" />
-                <span className="font-medium text-gray-900">{order.client_name}</span>
-              </div>
-              <div className="text-right">
-                <p className="font-bold text-blue-600">{order.total.toFixed(2)} €</p>
-                <p className="text-xs text-gray-500">
-                  {new Date(order.created_at).toLocaleTimeString('fr-FR')}
-                </p>
-              </div>
-            </div>
-            
-            <div className="space-y-1">
-              {order.items.map((item, index) => (
-                <div key={index} className="flex justify-between text-sm">
-                  <span className="text-gray-700">
-                    {item.quantity}x {item.product_name}
-                  </span>
-                  <span className="text-gray-600">{item.total_ttc.toFixed(2)} €</span>
+          <div key={order.id} className="border border-gray-200 rounded-lg">
+            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 rounded-t-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <User size={16} className="text-gray-500" />
+                  <span className="font-medium text-gray-900">{order.client_name || order.client_vat_number}</span>
                 </div>
-              ))}
+                <div className="text-sm text-gray-600">
+                  {new Date(order.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}
+                </div>
+              </div>
             </div>
-            
-            <div className="mt-2 pt-2 border-t border-gray-100">
-              <p className="text-xs text-gray-500">
-                TVA: {order.client_vat_number} • Commande: {order.id}
-              </p>
+            <div className="p-4">
+              <div className="space-y-1 mb-3">
+                {order.items.map((item, index) => (
+                  <div key={index} className="flex justify-between text-sm">
+                    <span className="text-gray-700">
+                      {item.quantity}x {item.product_name}
+                    </span>
+                    <span className="text-gray-600">{item.total_ttc.toFixed(2)} €</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <p className="text-xs text-gray-500">
+                  TVA: {order.client_vat_number} • Commande: {order.id}
+                </p>
+                <p className="font-bold text-blue-600">{order.total.toFixed(2)} €</p>
+              </div>
             </div>
           </div>
         ))}

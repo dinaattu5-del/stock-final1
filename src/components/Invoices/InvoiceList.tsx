@@ -27,7 +27,7 @@ export function InvoiceList() {
 
       dispatch({ type: 'SET_INVOICES', payload: data || [] });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load invoices');
+      setError(err instanceof Error ? err.message : 'Échec du chargement des factures');
       console.error('Invoice fetch error:', err);
     } finally {
       setLoading(false);

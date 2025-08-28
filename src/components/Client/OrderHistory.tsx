@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../lib/supabase';
@@ -66,7 +65,7 @@ export function OrderHistory() {
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
         <div>
-          <h2 className="text-2xl font-semibold leading-tight">My Orders</h2>
+          <h2 className="text-2xl font-semibold leading-tight">Mes commandes</h2>
         </div>
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -74,7 +73,7 @@ export function OrderHistory() {
               <thead>
                 <tr>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Order ID
+                    ID de commande
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Date
@@ -83,7 +82,7 @@ export function OrderHistory() {
                     Total
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Status
+                    Statut
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                     Actions
@@ -122,14 +121,14 @@ export function OrderHistory() {
                         onClick={() => handleDetailsClick(order)}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
-                        Details
+                        Détails
                       </button>
                       {order.status !== 'prepared' && (
                         <button
                           onClick={() => handleAddProductsClick(order)}
                           className="text-green-600 hover:text-green-900 ml-4"
                         >
-                          Add Products (Modify)
+                          Ajouter des produits (Modifier)
                         </button>
                       )}
                     </td>

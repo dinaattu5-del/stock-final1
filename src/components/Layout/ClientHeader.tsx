@@ -10,14 +10,14 @@ export function ClientHeader() {
       <div className="flex flex-col md:flex-row items-center justify-between space-y-2 md:space-y-0 md:space-x-4">
         <div className="flex items-center space-x-4">
           <Link to="/pos" className="text-lg font-bold whitespace-nowrap text-primary-dark hover:text-primary transition-colors">POS</Link>
-          <Link to="/order-history" className="text-lg whitespace-nowrap font-semibold text-gray-700 hover:text-primary transition-colors">Order History</Link>
+          <Link to="/order-history" className="text-lg whitespace-nowrap font-semibold text-gray-700 hover:text-primary transition-colors">Historique des commandes</Link>
         </div>
         
         <div className="flex items-center space-x-2 md:space-x-4">
           {profile && (
             <span className="text-gray-700 font-medium truncate max-w-[120px] md:max-w-none">{profile.name}</span>
           )}
-          <button onClick={logout} className="text-danger hover:text-danger-dark transition-colors text-sm md:text-base">Logout</button>
+          <button onClick={logout} className="text-danger hover:text-danger-dark transition-colors text-sm md:text-base">Déconnexion</button>
         </div>
       </div>
     </header>

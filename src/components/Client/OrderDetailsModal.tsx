@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Order, OrderItem, Product } from '../../types';
 import { supabase } from '../../lib/supabase';
@@ -39,20 +38,20 @@ export function OrderDetailsModal({ order, onClose }: OrderDetailsModalProps) {
             <div className="sm:flex sm:items-start">
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                  Order Details
+                  Détails de la commande
                 </h3>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    <strong>Order ID:</strong> {order.id}
+                    <strong>ID de la commande :</strong> {order.id}
                   </p>
                   <p className="text-sm text-gray-500">
-                    <strong>Date:</strong> {new Date(order.created_at).toLocaleDateString()}
+                    <strong>Date :</strong> {new Date(order.created_at).toLocaleDateString()}
                   </p>
                   <p className="text-sm text-gray-500">
-                    <strong>Status:</strong> {order.status}
+                    <strong>Statut :</strong> {order.status}
                   </p>
                   <div className="mt-4">
-                    <h4 className="text-md font-medium text-gray-800">Order Items</h4>
+                    <h4 className="text-md font-medium text-gray-800">Articles de la commande</h4>
                     <ul className="divide-y divide-gray-200">
                       {orderItems.map(item => (
                         <li key={item.id} className="py-2 flex justify-between">
@@ -62,7 +61,7 @@ export function OrderDetailsModal({ order, onClose }: OrderDetailsModalProps) {
                       ))}
                     </ul>
                     <div className="text-right mt-2 font-bold">
-                      Total: {order.total.toFixed(2)} €
+                      Total : {order.total.toFixed(2)} €
                     </div>
                   </div>
                 </div>
@@ -75,7 +74,7 @@ export function OrderDetailsModal({ order, onClose }: OrderDetailsModalProps) {
               className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={onClose}
             >
-              Close
+              Fermer
             </button>
           </div>
         </div>

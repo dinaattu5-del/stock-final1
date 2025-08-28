@@ -109,7 +109,7 @@ export function LoginPage() {
             </div>
             <div className="mb-6">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                Password
+                Mot de passe
               </label>
               <input
                 type="password"
@@ -124,7 +124,7 @@ export function LoginPage() {
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
-                Sign In
+                Se connecter
               </button>
             </div>
           </form>

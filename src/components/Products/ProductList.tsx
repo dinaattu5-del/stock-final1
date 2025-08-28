@@ -61,7 +61,7 @@ export function ProductList() {
 
     } catch (err) {
       console.error('Fetch error:', err);
-      setError(err instanceof Error ? err.message : 'Failed to load products');
+      setError(err instanceof Error ? err.message : 'Échec du chargement des produits');
     } finally {
       setLoading(false);
     }
@@ -192,7 +192,7 @@ export function ProductList() {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`p-4 rounded-lg shadow-lg flex items-center justify-between ${
+            className={`p-4 rounded-lg shadow-lg flex items-center justify-between ${ 
               toast.type === 'success' ? 'bg-green-500' :
               toast.type === 'error' ? 'bg-red-500' : 'bg-blue-500'
             } text-white`}
@@ -284,12 +284,12 @@ export function ProductList() {
                     <div className="text-sm text-gray-500">{product.code}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${ 
                       product.category === 'BOISSON' ? 'bg-blue-100 text-blue-800' :
                       product.category === 'SNACK' ? 'bg-green-100 text-green-800' :
                       product.category === 'EMBALLAGE' ? 'bg-orange-100 text-orange-800' :
                       'bg-gray-100 text-gray-800'
-                    }`}>
+                    }`}> 
                       {product.category || '-'}
                     </span>
                   </td>
@@ -303,9 +303,9 @@ export function ProductList() {
                     {product.sale_price_ttc.toFixed(2)} €
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`text-sm font-medium ${
+                    <span className={`text-sm font-medium ${ 
                       product.stock <= product.alert_quantity ? 'text-red-600' : 'text-gray-900'
-                    }`}>
+                    }`}> 
                       {product.stock}
                     </span>
                     {product.stock <= product.alert_quantity && (
