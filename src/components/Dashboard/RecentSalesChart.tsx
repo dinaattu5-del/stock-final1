@@ -10,7 +10,9 @@ export function RecentSalesChart({ sales }: RecentSalesChartProps) {
   const chartData = sales.map((sale, index) => ({
     name: `Vente ${index + 1}`,
     montant: sale.total,
-    produit: sale.productName
+    produit: sale.productName,
+    client: sale.client_name,
+    date: new Date(sale.date).toLocaleDateString(),
   }));
 
   return (
@@ -22,9 +24,11 @@ export function RecentSalesChart({ sales }: RecentSalesChartProps) {
           <YAxis />
           <Tooltip 
             formatter={(value, name, props) => [
-              `€${value}`, 
+              `€${value}`,
               'Montant',
-              props.payload.produit
+              props.payload.produit,
+              `Client: ${props.payload.client}`,
+              `Date: ${props.payload.date}`,
             ]}
           />
           <Bar dataKey="montant" fill="#3B82F6" radius={4} />

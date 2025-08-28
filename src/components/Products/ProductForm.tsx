@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calculator } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { showErrorToast, showSuccessToast } from '../../utils/toastUtils';
 
 interface ProductFormProps {
   product?: any | null;
@@ -80,10 +81,11 @@ export function ProductForm({ product, onClose, onSave }: ProductFormProps) {
         if (error) throw error;
       }
 
+      showSuccessToast('Produit sauvegardé avec succès!');
       onSave();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erreur lors de la sauvegarde:', error);
-      alert('Erreur lors de la sauvegarde du produit');
+      showErrorToast(`Erreur lors de la sauvegarde du produit: ${error.message}`);
     } finally {
       setLoading(false);
     }

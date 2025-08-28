@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { showErrorToast } from '../utils/toastUtils';
 
 type View = 'client' | 'admin';
 
@@ -9,7 +10,6 @@ export function LoginPage() {
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [vatNumber, setVatNumber] = useState('');
-  const [error, setError] = useState<string | null>(null);
   const { loginWithPassword, loginWithVat, profile, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -25,23 +25,21 @@ export function LoginPage() {
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     try {
       await loginWithPassword(email, password);
       // Redirection handled by useEffect
     } catch (err: any) {
-      setError(err.message);
+      showErrorToast(err.message);
     }
   };
 
   const handleClientLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     try {
       await loginWithVat(vatNumber);
       // Redirection handled by useEffect
     } catch (err: any) {
-      setError(err.message);
+      showErrorToast(err.message);
     }
   };
 
@@ -69,8 +67,6 @@ export function LoginPage() {
             Admin
           </button>
         </div>
-
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         {activeView === 'client' ? (
           <form onSubmit={handleClientLogin}>

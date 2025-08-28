@@ -31,16 +31,16 @@ export function Header({ onMenuToggle }: { onMenuToggle?: () => void }) {
             <input
               type="text"
               placeholder="Rechercher..."
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-80"
+              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent w-80 transition-colors"
             />
           </div>
         </div>
         
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <Bell className="text-gray-600 cursor-pointer hover:text-blue-600 transition-colors" size={24} />
+            <Bell className="text-gray-600 cursor-pointer hover:text-primary transition-colors" size={24} />
             {alerts.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 bg-danger text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transition-colors">
                 {alerts.length}
               </span>
             )}
@@ -51,7 +51,7 @@ export function Header({ onMenuToggle }: { onMenuToggle?: () => void }) {
             <span className="text-gray-700 font-medium">Admin</span>
             <button 
               onClick={handleLogout}
-              className="text-gray-600 hover:text-red-600 transition-colors p-1 rounded-full"
+              className="text-gray-600 hover:text-danger transition-colors p-1 rounded-full"
               title="Déconnexion"
             >
               <LogOut size={20} />

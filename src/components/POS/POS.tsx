@@ -4,6 +4,7 @@ import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';
 import { OrderItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { showErrorToast, showSuccessToast } from '../../utils/toastUtils';
 
 export function POS() {
   const { state } = useApp();
@@ -11,7 +12,6 @@ export function POS() {
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Automatically validate client if logged in
   useEffect(() => {
@@ -99,12 +99,12 @@ export function POS() {
 
       if (error) throw error;
 
-      setMessage({ type: 'success', text: 'Commande envoyée avec succès!' });
+      showSuccessToast('Commande envoyée avec succès!');
       setCart([]);
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting order:', error);
-      setMessage({ type: 'error', text: 'Erreur lors de l\'envoi de la commande' });
+      showErrorToast(`Erreur lors de l\'envoi de la commande: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -112,30 +112,12 @@ export function POS() {
 
   const { subtotal, tax, total } = calculateTotals();
 
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => setMessage(null), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
-
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Point de Vente</h1>
         <p className="text-gray-600 mt-1">Système de commande pour les clients</p>
       </div>
-
-      {/* Message d'alerte */}
-      {message && (
-        <div className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${ 
-          message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200' : 
-          'bg-red-50 text-red-800 border border-red-200'
-        }`}>
-          <AlertCircle size={20} />
-          <span>{message.text}</span>
-        </div>
-      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Section Produits */}
@@ -149,24 +131,24 @@ export function POS() {
                 placeholder="Rechercher un produit..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-80"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary w-80 transition-colors"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-h-96 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
             {filteredProducts.map((product) => (
               <div
                 key={product.id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+                className="border border-gray-200 rounded-lg p-3 hover:shadow-lg transition-all duration-200 cursor-pointer"
                 onClick={() => addToCart(product)}
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-medium text-gray-900 text-sm">{product.name}</h3>
                   <span className={`px-2 py-1 rounded text-xs font-medium ${ 
-                    product.category === 'BOISSON' ? 'bg-blue-100 text-blue-800' :
-                    product.category === 'SNACK' ? 'bg-green-100 text-green-800' :
-                    'bg-orange-100 text-orange-800'
+                    product.category === 'BOISSON' ? 'bg-primary-light text-primary-dark' :
+                    product.category === 'SNACK' ? 'bg-secondary-light text-secondary-dark' :
+                    'bg-accent-light text-accent-dark'
                   }`}>
                     {product.category}
                   </span>
@@ -200,20 +182,20 @@ export function POS() {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 text-gray-500 hover:text-red-600"
+                        className="p-1 text-gray-500 hover:text-danger transition-colors"
                       >
                         <Minus size={16} />
                       </button>
                       <span className="w-8 text-center font-medium">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-1 text-gray-500 hover:text-green-600"
+                        className="p-1 text-gray-500 hover:text-success transition-colors"
                       >
                         <Plus size={16} />
                       </button>
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="p-1 text-gray-500 hover:text-red-600 ml-2"
+                        className="p-1 text-gray-500 hover:text-danger transition-colors ml-2"
                       >
                         <Trash2 size={16} />
                       </button>
@@ -227,7 +209,7 @@ export function POS() {
               <button
                 onClick={submitOrder}
                 disabled={cart.length === 0 || loading}
-                className="w-full mt-4 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                className="w-full mt-4 bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
               >
                 {loading ? 'Envoi...' : 'Valider la Commande'}
               </button>

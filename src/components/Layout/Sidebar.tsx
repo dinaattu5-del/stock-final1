@@ -33,7 +33,7 @@ export function Sidebar() {
   return (
     <div className="bg-slate-900 text-white p-4 h-full overflow-y-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-blue-400">StockManager</h1>
+        <h1 className="text-2xl font-bold text-primary-light">StockManager</h1>
         <p className="text-slate-400 text-sm">Gestion de Stock Pro</p>
       </div>
       
@@ -49,14 +49,14 @@ export function Sidebar() {
               to={item.path}
               className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
                 isActive 
-                  ? 'bg-blue-600 text-white shadow-lg transform scale-105' 
+                  ? 'bg-primary text-white shadow-lg transform scale-105' 
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
               <Icon size={20} />
               <span className="font-medium">{item.label}</span>
               {hasAlerts && (
-                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                <span className="ml-auto bg-danger text-white text-xs px-2 py-1 rounded-full">
                   {alerts.length}
                 </span>
               )}

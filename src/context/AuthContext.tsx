@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Session, User } from '@supabase/supabase-js';
+import { showErrorToast } from '../utils/toastUtils';
 
 interface AuthContextType {
   session: Session | null;
@@ -23,15 +24,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError) {
+        console.error("Error getting session:", sessionError);
+        showErrorToast("Error getting session.");
+      }
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        const { data: profile } = await supabase
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', session.user.id)
           .single();
+        if (profileError) {
+          console.error("Error fetching profile:", profileError);
+          showErrorToast("Error fetching user profile.");
+        }
         setProfile(profile);
       }
       setLoading(false);
@@ -39,19 +48,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     getSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        const getProfile = async () => {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          setProfile(profile);
-        };
-        getProfile();
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single();
+        if (profileError) {
+          console.error("Error fetching profile on auth state change:", profileError);
+          showErrorToast("Error fetching user profile.");
+        }
+        setProfile(profile);
       } else {
         setProfile(null);
       }
@@ -64,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithPassword = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
+    if (error) throw error; // Let the calling component handle this for specific messages
     return data;
   };
 
@@ -76,7 +86,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .eq('vat_intra', vatNumber)
       .single();
 
-    if (error) throw new Error('Client not found');
+    if (error) {
+      showErrorToast('Client not found or an error occurred.');
+      return null; // Indicate failure
+    }
     if (client) {
       setProfile({ role: 'client', ...client });
     }
@@ -84,7 +97,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error);
+      showErrorToast("Error logging out.");
+    }
     setProfile(null);
   };
 
