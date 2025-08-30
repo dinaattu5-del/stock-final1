@@ -4,15 +4,23 @@ import { useApp } from '../../context/AppContext';
 import { supabase } from '../../lib/supabase';
 import { OrderItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+<<<<<<< HEAD
+=======
+import { showErrorToast, showSuccessToast } from '../../utils/toastUtils';
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
 export function POS() {
   const { state } = useApp();
   const { profile } = useAuth();
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+<<<<<<< HEAD
   const [selectedCategory, setSelectedCategory] = useState('All'); // New state for category filter
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+=======
+  const [loading, setLoading] = useState(false);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
   // Automatically validate client if logged in
   useEffect(() => {
@@ -21,6 +29,7 @@ export function POS() {
     }
   }, [profile]);
 
+<<<<<<< HEAD
   const uniqueCategories = ['All', ...new Set(state.products.map(product => product.category))];
 
   const filteredProducts = state.products.filter(product => {
@@ -29,6 +38,12 @@ export function POS() {
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
     return matchesSearchTerm && matchesCategory;
   });
+=======
+  const filteredProducts = state.products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.code.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
   const addToCart = (product: any) => {
     const existingItem = cart.find(item => item.product_id === product.id);
@@ -85,6 +100,7 @@ export function POS() {
     try {
       const { subtotal, tax, total } = calculateTotals();
       
+<<<<<<< HEAD
       console.log('POS - profile:', profile); // Debug log
       console.log('POS - profile.name:', profile.name); // Debug log
 
@@ -92,6 +108,12 @@ export function POS() {
         id: `CMD${Date.now()}`,
         client_vat_number: profile.vat_intra, // Use VAT from profile
         client_name: profile.name || '', // Changed from full_name to name
+=======
+      const orderData = {
+        id: `CMD${Date.now()}`,
+        client_vat_number: profile.vat_intra, // Use VAT from profile
+        client_name: profile.full_name || '',
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         items: cart,
         subtotal,
         tax,
@@ -107,6 +129,7 @@ export function POS() {
 
       if (error) throw error;
 
+<<<<<<< HEAD
       setMessage({ type: 'success', text: 'Commande envoyée avec succès!' });
       setCart([]);
       
@@ -114,6 +137,14 @@ export function POS() {
     } catch (error) {
       console.error('Error submitting order:', error);
       setMessage({ type: 'error', text: 'Erreur lors de l\'envoi de la commande' });
+=======
+      showSuccessToast('Commande envoyée avec succès!');
+      setCart([]);
+      
+    } catch (error: any) {
+      console.error('Error submitting order:', error);
+      showErrorToast(`Erreur lors de l\'envoi de la commande: ${error.message}`);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     } finally {
       setLoading(false);
     }
@@ -121,6 +152,7 @@ export function POS() {
 
   const { subtotal, tax, total } = calculateTotals();
 
+<<<<<<< HEAD
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(null), 5000);
@@ -128,6 +160,8 @@ export function POS() {
     }
   }, [message]);
 
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-6">
@@ -135,6 +169,7 @@ export function POS() {
         <p className="text-gray-600 mt-1">Système de commande pour les clients</p>
       </div>
 
+<<<<<<< HEAD
       {/* Message d'alerte */}
       {message && (
         <div className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${ 
@@ -187,6 +222,38 @@ export function POS() {
                     product.category === 'BOISSON' ? 'bg-blue-100 text-blue-800' :
                     product.category === 'SNACK' ? 'bg-green-100 text-green-800' :
                     'bg-orange-100 text-orange-800'
+=======
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Section Produits */}
+        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-semibold text-gray-900">Produits</h2>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                placeholder="Rechercher un produit..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary w-80 transition-colors"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 max-h-96 overflow-y-auto">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="border border-gray-200 rounded-lg p-3 hover:shadow-lg transition-all duration-200 cursor-pointer"
+                onClick={() => addToCart(product)}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-medium text-gray-900 text-sm">{product.name}</h3>
+                  <span className={`px-2 py-1 rounded text-xs font-medium ${ 
+                    product.category === 'BOISSON' ? 'bg-primary-light text-primary-dark' :
+                    product.category === 'SNACK' ? 'bg-secondary-light text-secondary-dark' :
+                    'bg-accent-light text-accent-dark'
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                   }`}>
                     {product.category}
                   </span>
@@ -199,7 +266,11 @@ export function POS() {
         </div>
 
         {/* Panier */}
+<<<<<<< HEAD
         <div className="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit"> {/* Explicitly span 1 column */}
+=======
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 h-fit">
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
             <ShoppingCart className="mr-2" size={24} />
             Panier ({cart.length})
@@ -220,20 +291,32 @@ export function POS() {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
+<<<<<<< HEAD
                         className="p-1 text-gray-500 hover:text-red-600"
+=======
+                        className="p-1 text-gray-500 hover:text-danger transition-colors"
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                       >
                         <Minus size={16} />
                       </button>
                       <span className="w-8 text-center font-medium">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
+<<<<<<< HEAD
                         className="p-1 text-gray-500 hover:text-green-600"
+=======
+                        className="p-1 text-gray-500 hover:text-success transition-colors"
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                       >
                         <Plus size={16} />
                       </button>
                       <button
                         onClick={() => removeFromCart(item.id)}
+<<<<<<< HEAD
                         className="p-1 text-gray-500 hover:text-red-600 ml-2"
+=======
+                        className="p-1 text-gray-500 hover:text-danger transition-colors ml-2"
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                       >
                         <Trash2 size={16} />
                       </button>
@@ -247,7 +330,11 @@ export function POS() {
               <button
                 onClick={submitOrder}
                 disabled={cart.length === 0 || loading}
+<<<<<<< HEAD
                 className="w-full mt-4 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+=======
+                className="w-full mt-4 bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
               >
                 {loading ? 'Envoi...' : 'Valider la Commande'}
               </button>
@@ -257,4 +344,8 @@ export function POS() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa

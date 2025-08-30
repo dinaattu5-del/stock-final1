@@ -109,7 +109,10 @@ export interface CompanySettings {
   siret: string;
   ape_code: string;
   vat_number: string;
+<<<<<<< HEAD
   iban?: string; // Added IBAN
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   logo_url?: string;
   primary_color: string;
   secondary_color: string;

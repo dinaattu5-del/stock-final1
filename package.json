@@ -16,12 +16,21 @@
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.344.0",
+<<<<<<< HEAD
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.8.1",
     "recharts": "^2.8.0",
     "to-words": "^4.7.0"
+=======
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-error-boundary": "^6.0.0",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^7.8.1",
+    "recharts": "^2.8.0"
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

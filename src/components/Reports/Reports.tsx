@@ -15,7 +15,10 @@ export function Reports() {
 
   const tabs = [
     { id: 'invoices', label: 'Factures', icon: Receipt },
+<<<<<<< HEAD
     { id: 'sales', label: 'Commandes', icon: Receipt }, // New tab for orders/sales
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     { id: 'clients', label: 'Clients', icon: Users },
     { id: 'products', label: 'Produits', icon: Package },
     { id: 'vat', label: 'TVA', icon: TrendingUp }
@@ -40,6 +43,7 @@ export function Reports() {
     const filteredInvoices = filterByDate(state.invoices, 'created_at')
       .filter(inv => !selectedClient || inv.client_id === selectedClient);
 
+<<<<<<< HEAD
     const company = state.companySettings; // Access company settings
 
     // Company Info (Top Left)
@@ -70,6 +74,16 @@ export function Reports() {
         doc.text(`TVA Client: ${client.vat_intra}`, doc.internal.pageSize.width - 14, currentY, { align: 'right' });
         currentY += 7;
       }
+=======
+    // En-tête
+    doc.setFontSize(20);
+    doc.text('Rapport des Factures', 14, 20);
+    doc.setFontSize(12);
+    doc.text(`Période: ${dateFrom || 'Début'} - ${dateTo || 'Fin'}`, 14, 30);
+    if (selectedClient) {
+      const client = state.clients.find(c => c.id === selectedClient);
+      doc.text(`Client: ${client?.name}`, 14, 38);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     }
 
     // Statistiques
@@ -77,6 +91,7 @@ export function Reports() {
     const totalTVA = filteredInvoices.reduce((sum, inv) => sum + inv.tax, 0);
     const totalTTC = filteredInvoices.reduce((sum, inv) => sum + inv.total, 0);
 
+<<<<<<< HEAD
     const statsStartY = currentY + 10; // Give some space after client info
     doc.setFontSize(14);
     doc.text('Résumé:', 14, statsStartY);
@@ -88,6 +103,15 @@ export function Reports() {
 
     // Adjust table startY
     const tableStartY = statsStartY + 40; // Give some space after statistics
+=======
+    doc.setFontSize(14);
+    doc.text('Résumé:', 14, 50);
+    doc.setFontSize(11);
+    doc.text(`Nombre de factures: ${filteredInvoices.length}`, 14, 58);
+    doc.text(`Total HT: ${totalHT.toFixed(2)} €`, 14, 66);
+    doc.text(`Total TVA: ${totalTVA.toFixed(2)} €`, 14, 74);
+    doc.text(`Total TTC: ${totalTTC.toFixed(2)} €`, 14, 82);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
     // Tableau des factures
     const tableData = filteredInvoices.map(invoice => [
@@ -105,7 +129,11 @@ export function Reports() {
     autoTable(doc, {
       head: [['N° Facture', 'Client', 'Date', 'HT', 'TVA', 'TTC', 'Statut']],
       body: tableData,
+<<<<<<< HEAD
       startY: tableStartY, // Use dynamic startY
+=======
+      startY: 90,
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       styles: { fontSize: 9, cellPadding: 3 },
       headStyles: { fillColor: [59, 130, 246], textColor: 255 },
       alternateRowStyles: { fillColor: [245, 245, 245] }
@@ -114,6 +142,7 @@ export function Reports() {
     doc.save(`rapport_factures_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
+<<<<<<< HEAD
   // Rapport des commandes (Sales)
   const generateOrdersReport = () => {
     const doc = new jsPDF();
@@ -154,6 +183,8 @@ export function Reports() {
     doc.save(`rapport_commandes_${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   // Rapport des clients
   const generateClientsReport = () => {
     const doc = new jsPDF();
@@ -306,7 +337,10 @@ export function Reports() {
   const generateReport = () => {
     switch (activeTab) {
       case 'invoices': generateInvoicesReport(); break;
+<<<<<<< HEAD
       case 'sales': generateOrdersReport(); break; // New case for orders/sales report
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       case 'clients': generateClientsReport(); break;
       case 'products': generateProductsReport(); break;
       case 'vat': generateVATReport(); break;
@@ -459,6 +493,7 @@ export function Reports() {
           </div>
         )}
 
+<<<<<<< HEAD
         {activeTab === 'sales' && ( // New section for sales/orders
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="bg-blue-50 p-4 rounded-lg">
@@ -486,6 +521,8 @@ export function Reports() {
           </div>
         )}
 
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         {activeTab === 'clients' && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-blue-50 p-4 rounded-lg">

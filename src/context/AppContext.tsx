@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { createContext, useContext, useReducer, useEffect, useRef, ReactNode } from 'react';
+=======
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 import { supabase } from '../lib/supabase';
 import type { Client, Product, Category, Invoice, CompanySettings } from '../types';
 
@@ -13,7 +17,10 @@ interface AppState {
   sales: any[];
   alerts: any[];
   companySettings: CompanySettings;
+<<<<<<< HEAD
   pendingOrdersCount: number; // New state for pending orders count
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 }
 
 // Action types
@@ -38,22 +45,30 @@ type AppAction =
   | { type: 'DELETE_CATEGORY'; payload: string }
   | { type: 'ADD_INVOICE'; payload: Invoice }
   | { type: 'UPDATE_INVOICE'; payload: { id: string; data: Partial<Invoice> } }
+<<<<<<< HEAD
   | { type: 'DELETE_INVOICE'; payload: string }
   | { type: 'SET_PENDING_ORDERS_COUNT'; payload: number } // New action type
   | { type: 'CLEAR_PENDING_ORDERS' }; // New action to clear pending orders
+=======
+  | { type: 'DELETE_INVOICE'; payload: string };
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
 // Context type
 interface AppContextType {
   state: AppState;
   dispatch: React.Dispatch<AppAction>;
   refreshData: () => Promise<void>;
+<<<<<<< HEAD
   playNotificationSound: () => void; // New function in context
   clearPendingOrders: () => Promise<void>; // New function to clear pending orders
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 }
 
 // Default company settings
 const defaultCompanySettings: CompanySettings = {
   id: '1',
+<<<<<<< HEAD
   company_name: 'LIA FOOD SRL',
   address: 'RUE DE FIERLANT 120', // Mapped to address
   postal_code: '1190',
@@ -69,6 +84,16 @@ const defaultCompanySettings: CompanySettings = {
   logo_url: '',
   primary_color: '#3B82F6', // Default blue
   secondary_color: '#10B981', // Default green
+=======
+  company_name: 'Mon Entreprise',
+  company_address: '123 Rue Example',
+  company_phone: '01 23 45 67 89',
+  company_email: 'contact@monentreprise.fr',
+  company_siret: '12345678901234',
+  invoice_prefix: 'FACT',
+  invoice_counter: 1,
+  tax_rate: 20,
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString()
 };
@@ -90,8 +115,12 @@ const initialState: AppState = {
   invoices: [],
   sales: [],
   alerts: [],
+<<<<<<< HEAD
   companySettings: defaultCompanySettings,
   pendingOrdersCount: 0, // Initialize pending orders count
+=======
+  companySettings: defaultCompanySettings
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 };
 
 // Reducer function
@@ -179,8 +208,11 @@ function appReducer(state: AppState, action: AppAction): AppState {
         ...state,
         invoices: state.invoices.filter(invoice => invoice.id !== action.payload)
       };
+<<<<<<< HEAD
     case 'SET_PENDING_ORDERS_COUNT': // New case for pending orders count
       return { ...state, pendingOrdersCount: action.payload };
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     default:
       return state;
   }
@@ -190,6 +222,7 @@ function appReducer(state: AppState, action: AppAction): AppState {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // Provider component
+<<<<<<< HEAD
 export function AppProvider({ children }: { ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const audioRef = useRef<HTMLAudioElement>(null); // Audio ref
@@ -199,6 +232,10 @@ export function AppProvider({ children }: { ReactNode }) {
       audioRef.current.play().catch(error => console.error("Error playing sound:", error));
     }
   };
+=======
+export function AppProvider({ children }: { children: ReactNode }) {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
   const isSupabaseConfigured = () => {
     const url = import.meta.env.VITE_SUPABASE_URL;
@@ -215,6 +252,7 @@ export function AppProvider({ children }: { ReactNode }) {
     return true;
   };
 
+<<<<<<< HEAD
   const fetchPendingOrdersCount = async () => {
     if (!isSupabaseConfigured()) return;
     try {
@@ -234,12 +272,19 @@ export function AppProvider({ children }: { ReactNode }) {
     console.log('loadData: starting');
     if (!isSupabaseConfigured()) {
       console.log('loadData: Supabase not configured, setting loading to false');
+=======
+  const loadData = async () => {
+    if (!isSupabaseConfigured()) {
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       dispatch({ type: 'SET_LOADING', payload: false });
       return;
     }
 
     try {
+<<<<<<< HEAD
       console.log('loadData: Supabase configured, setting loading to true');
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       dispatch({ type: 'SET_LOADING', payload: true });
 
       // Load company settings
@@ -302,7 +347,11 @@ export function AppProvider({ children }: { ReactNode }) {
       try {
         const { data: invoicesData, error: invoicesError } = await supabase
           .from('invoices')
+<<<<<<< HEAD
           .select('*, client:clients(*)')
+=======
+          .select('*')
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
           .order('created_at', { ascending: false });
 
         if (!invoicesError && invoicesData) {
@@ -313,6 +362,7 @@ export function AppProvider({ children }: { ReactNode }) {
         dispatch({ type: 'SET_INVOICES', payload: [] });
       }
 
+<<<<<<< HEAD
       // Load sales (orders)
       try {
         const { data: salesData, error: salesError } = await supabase
@@ -334,6 +384,11 @@ export function AppProvider({ children }: { ReactNode }) {
       console.error('loadData: Network error loading data:', error);
     } finally {
       console.log('loadData: finally block, setting loading to false');
+=======
+    } catch (error) {
+      console.error('Network error loading data:', error);
+    } finally {
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
@@ -344,6 +399,7 @@ export function AppProvider({ children }: { ReactNode }) {
 
   useEffect(() => {
     loadData();
+<<<<<<< HEAD
 
     // Real-time subscription for new orders
     const ordersChannel = supabase
@@ -388,10 +444,15 @@ export function AppProvider({ children }: { ReactNode }) {
     }
   };
 
+=======
+  }, []);
+
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   const value: AppContextType = {
     state,
     dispatch,
     refreshData,
+<<<<<<< HEAD
     playNotificationSound, // Expose the function
     clearPendingOrders, // Expose the function
   };
@@ -402,6 +463,11 @@ export function AppProvider({ children }: { ReactNode }) {
       <audio ref={audioRef} src="/notification.mp3" preload="auto" /> {/* Audio element */}
     </AppContext.Provider>
   );
+=======
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 }
 
 // Hook to use the context
@@ -411,4 +477,8 @@ export function useApp() {
     throw new Error('useApp must be used within an AppProvider');
   }
   return context;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa

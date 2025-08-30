@@ -47,7 +47,11 @@ export function ClientList() {
 
       dispatch({ type: 'SET_CLIENTS', payload: data || [] });
     } catch (err) {
+<<<<<<< HEAD
       setError(err instanceof Error ? err.message : 'Failed to load clients');
+=======
+      setError(err instanceof Error ? err.message : 'Échec du chargement des clients');
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       console.error('Client fetch error:', err);
     } finally {
       setLoading(false);
@@ -69,7 +73,11 @@ export function ClientList() {
 
       dispatch({ type: 'DELETE_CLIENT', payload: clientId });
     } catch (err) {
+<<<<<<< HEAD
       setError(err instanceof Error ? err.message : 'Failed to delete client');
+=======
+      setError(err instanceof Error ? err.message : 'Échec de la suppression du client');
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       console.error('Delete error:', err);
     } finally {
       setLoading(false);
@@ -245,7 +253,11 @@ export function ClientList() {
 
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <div className="flex justify-between items-center">
+<<<<<<< HEAD
                   <span className="text-sm text-gray-600">Total Achats</span>
+=======
+                  <span className="text-sm text-gray-600">Total des Achats</span>
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                   <span className="font-semibold text-green-600">
                     €{client.totalPurchases?.toFixed(2) || '0.00'}
                   </span>
@@ -271,4 +283,8 @@ export function ClientList() {
       )}
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa

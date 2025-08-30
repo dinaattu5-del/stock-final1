@@ -4,7 +4,11 @@ import { supabase } from '../../lib/supabase';
 import { Order } from '../../types';
 
 // Sub-component for Order Statistics
+<<<<<<< HEAD
 const OrderStats: React.FC<{ totalOrders: number; uniqueProducts: number }> = 
+=======
+const OrderStats: React.FC<{ totalOrders: number; uniqueProducts: number; totalAmount: number }> = 
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   ({ totalOrders, uniqueProducts, totalAmount }) => (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <StatCard 
@@ -19,7 +23,16 @@ const OrderStats: React.FC<{ totalOrders: number; uniqueProducts: number }> =
         icon={<Package size={24} className="text-white" />}
         bgColor="bg-green-500"
       />
+<<<<<<< HEAD
       
+=======
+      <StatCard 
+        title="Montant total"
+        value={`${totalAmount.toFixed(2)} €`}
+        icon={<Hash size={24} className="text-white" />}
+        bgColor="bg-purple-500"
+      />
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     </div>
   );
 
@@ -84,9 +97,13 @@ const ProductSummary: React.FC<{ productSummary: any[]; showAllOrders: boolean; 
   );
 
 // Sub-component for Detailed Orders List
+<<<<<<< HEAD
 const DetailedOrdersList: React.FC<{ orders: Order[] }> = ({ orders }) => {
   console.log('DetailedOrdersList - orders received:', orders); // Debug log for received orders
   return (
+=======
+const DetailedOrdersList: React.FC<{ orders: Order[] }> = ({ orders }) => (
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
     <h2 className="text-xl font-semibold text-gray-900 mb-4">Commandes Détaillées</h2>
     
@@ -99,6 +116,7 @@ const DetailedOrdersList: React.FC<{ orders: Order[] }> = ({ orders }) => {
     ) : (
       <div className="space-y-4 max-h-96 overflow-y-auto">
         {orders.map((order) => (
+<<<<<<< HEAD
           <div key={order.id} className="border border-gray-200 rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center space-x-2"> {/* Made client name an h3 */}
               <User size={20} className="text-gray-600" /> {/* Slightly larger icon */}
@@ -129,18 +147,57 @@ const DetailedOrdersList: React.FC<{ orders: Order[] }> = ({ orders }) => {
               <p className="text-xs text-gray-500">
                 TVA: {order.client_vat_number} • Commande: {order.id}
               </p>
+=======
+          <div key={order.id} className="border border-gray-200 rounded-lg">
+            <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 rounded-t-lg">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <User size={16} className="text-gray-500" />
+                  <span className="font-medium text-gray-900">{order.client_name || order.client_vat_number}</span>
+                </div>
+                <div className="text-sm text-gray-600">
+                  {new Date(order.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}
+                </div>
+              </div>
+            </div>
+            <div className="p-4">
+              <div className="space-y-1 mb-3">
+                {order.items.map((item, index) => (
+                  <div key={index} className="flex justify-between text-sm">
+                    <span className="text-gray-700">
+                      {item.quantity}x {item.product_name}
+                    </span>
+                    <span className="text-gray-600">{item.total_ttc.toFixed(2)} €</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <p className="text-xs text-gray-500">
+                  TVA: {order.client_vat_number} • Commande: {order.id}
+                </p>
+                <p className="font-bold text-blue-600">{order.total.toFixed(2)} €</p>
+              </div>
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
             </div>
           </div>
         ))}
       </div>
     )}
   </div>
+<<<<<<< HEAD
 );}; // Added closing brace and semicolon
+=======
+);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
 export function OrderManagement() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-')); // Formats to YYYY-MM-DD
+=======
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   const [clientFilter, setClientFilter] = useState('');
   const [showAllOrders, setShowAllOrders] = useState(false);
 
@@ -288,6 +345,10 @@ export function OrderManagement() {
       <OrderStats 
         totalOrders={totalOrders}
         uniqueProducts={productSummary.length}
+<<<<<<< HEAD
+=======
+        totalAmount={totalAmount}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

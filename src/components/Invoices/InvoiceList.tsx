@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { FileText, Plus, Eye, Download, Edit, RefreshCw, AlertTriangle, Search } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
@@ -10,6 +11,47 @@ export function InvoiceList() {
   const [editingInvoice, setEditingInvoice] = useState(null);
   const [viewingInvoice, setViewingInvoice] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+=======
+import React, { useState, useEffect } from 'react';
+import { FileText, Plus, Eye, Download, Edit, RefreshCw, AlertTriangle } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { InvoiceForm } from './InvoiceForm';
+import { InvoicePDF } from './InvoicePDF';
+import { supabase } from '../../lib/supabase';
+
+export function InvoiceList() {
+  const { state, dispatch } = useApp();
+  const [showForm, setShowForm] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState(null);
+  const [viewingInvoice, setViewingInvoice] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchInvoices = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const { data, error: supabaseError } = await supabase
+        .from('invoices')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (supabaseError) throw supabaseError;
+
+      dispatch({ type: 'SET_INVOICES', payload: data || [] });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Échec du chargement des factures');
+      console.error('Invoice fetch error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvoices();
+  }, []);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
   const handleEdit = (invoice) => {
     setEditingInvoice(invoice);
@@ -26,7 +68,11 @@ export function InvoiceList() {
   };
 
   const handleFormSave = () => {
+<<<<<<< HEAD
     refreshData();
+=======
+    fetchInvoices(); // Recharger les factures après sauvegarde
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     setShowForm(false);
     setEditingInvoice(null);
   };
@@ -49,12 +95,16 @@ export function InvoiceList() {
     }
   };
 
+<<<<<<< HEAD
   const filteredInvoices = state.invoices.filter(invoice =>
     invoice.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     invoice.client?.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (state.loading && state.invoices.length === 0) {
+=======
+  if (loading && state.invoices.length === 0) {
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     return (
       <div className="p-6 text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto">
@@ -65,8 +115,31 @@ export function InvoiceList() {
     );
   }
 
+<<<<<<< HEAD
   console.log('showForm:', showForm);
   console.log('state.loading:', state.loading);
+=======
+  if (error) {
+    return (
+      <div className="p-6">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <div className="flex flex-col items-center text-center">
+            <AlertTriangle className="text-red-500 h-12 w-12 mb-3" />
+            <h3 className="text-lg font-medium text-red-800 mb-2">Erreur de chargement</h3>
+            <p className="text-red-600 mb-4">{error}</p>
+            <button
+              onClick={fetchInvoices}
+              className="bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 transition-colors flex items-center space-x-2"
+            >
+              <RefreshCw size={16} />
+              <span>Réessayer</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
   return (
     <div className="p-6">
@@ -77,18 +150,26 @@ export function InvoiceList() {
         </div>
         <button
           onClick={() => {
+<<<<<<< HEAD
             console.log('Nouvelle Facture button clicked');
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
             setEditingInvoice(null);
             setShowForm(true);
           }}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+<<<<<<< HEAD
           disabled={state.loading}
+=======
+          disabled={loading}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         >
           <Plus size={20} />
           <span>Nouvelle Facture</span>
         </button>
       </div>
 
+<<<<<<< HEAD
       <div className="mb-6 relative">
         <input
           type="text"
@@ -101,6 +182,9 @@ export function InvoiceList() {
       </div>
 
       {filteredInvoices.length === 0 ? (
+=======
+      {state.invoices.length === 0 ? (
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         <div className="bg-white rounded-lg border p-8 text-center">
           <FileText className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-lg font-medium text-gray-900">Aucune facture trouvée</h3>
@@ -108,7 +192,10 @@ export function InvoiceList() {
           <div className="mt-6">
             <button
               onClick={() => {
+<<<<<<< HEAD
                 console.log('Créer une facture button clicked');
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                 setEditingInvoice(null);
                 setShowForm(true);
               }}
@@ -146,7 +233,11 @@ export function InvoiceList() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
+<<<<<<< HEAD
                 {filteredInvoices.map((invoice) => (
+=======
+                {state.invoices.map((invoice) => (
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                   <tr key={invoice.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -164,7 +255,11 @@ export function InvoiceList() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+<<<<<<< HEAD
                       {invoice.client?.name}
+=======
+                      {invoice.client_name}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       €{invoice.total.toFixed(2)}

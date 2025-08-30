@@ -1,10 +1,17 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AdminLayout } from '../components/Layout/AdminLayout';
 import { ClientLayout } from '../components/Layout/ClientLayout';
 import { LoginPage } from '../pages/LoginPage';
 import { Dashboard } from '../components/Dashboard/Dashboard';
+<<<<<<< HEAD
 import { MyApp } from '../components/Dashboard/MyApp';
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 import { ProductList } from '../components/Products/ProductList';
 import { ClientList } from '../components/Clients/ClientList';
 import { InvoiceList } from '../components/Invoices/InvoiceList';
@@ -36,7 +43,10 @@ export function AppRouter() {
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
+<<<<<<< HEAD
             <Route path="my-app" element={<MyApp />} />
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
             <Route path="products" element={<ProductList />} />
             <Route path="clients" element={<ClientList />} />
             <Route path="invoices" element={<InvoiceList />} />

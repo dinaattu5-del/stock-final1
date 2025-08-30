@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+=======
+import { showErrorToast } from '../utils/toastUtils';
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
 type View = 'client' | 'admin';
 
@@ -9,7 +13,10 @@ export function LoginPage() {
   const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [vatNumber, setVatNumber] = useState('');
+<<<<<<< HEAD
   const [error, setError] = useState<string | null>(null);
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   const { loginWithPassword, loginWithVat, profile, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -25,23 +32,37 @@ export function LoginPage() {
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     setError(null);
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     try {
       await loginWithPassword(email, password);
       // Redirection handled by useEffect
     } catch (err: any) {
+<<<<<<< HEAD
       setError(err.message);
+=======
+      showErrorToast(err.message);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     }
   };
 
   const handleClientLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
     setError(null);
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     try {
       await loginWithVat(vatNumber);
       // Redirection handled by useEffect
     } catch (err: any) {
+<<<<<<< HEAD
       setError(err.message);
+=======
+      showErrorToast(err.message);
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
     }
   };
 
@@ -70,8 +91,11 @@ export function LoginPage() {
           </button>
         </div>
 
+<<<<<<< HEAD
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         {activeView === 'client' ? (
           <form onSubmit={handleClientLogin}>
             <div className="mb-4">
@@ -113,7 +137,11 @@ export function LoginPage() {
             </div>
             <div className="mb-6">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+<<<<<<< HEAD
                 Password
+=======
+                Mot de passe
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
               </label>
               <input
                 type="password"
@@ -128,7 +156,11 @@ export function LoginPage() {
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+<<<<<<< HEAD
                 Sign In
+=======
+                Se connecter
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
               </button>
             </div>
           </form>
@@ -136,4 +168,8 @@ export function LoginPage() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa

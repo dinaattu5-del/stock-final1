@@ -25,9 +25,12 @@ export function InvoiceForm({ invoice, onClose, onSave }: InvoiceFormProps) {
   const { state } = useApp();
   const [loading, setLoading] = useState(false);
   const [selectedClient, setSelectedClient] = useState(invoice?.client_id || '');
+<<<<<<< HEAD
   const [paymentMethod, setPaymentMethod] = useState<'Espèce' | 'Virement bancaire' | 'Versement bancaire'>(
     invoice?.payment_method || 'Espèce'
   );
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   const [items, setItems] = useState<InvoiceItem[]>([]);
   const [searchTerms, setSearchTerms] = useState<{ [key: string]: string }>({});
   const [showSuggestions, setShowSuggestions] = useState<{ [key: string]: boolean }>({});
@@ -213,7 +216,10 @@ export function InvoiceForm({ invoice, onClose, onSave }: InvoiceFormProps) {
         tax: grandTotalTVA,
         total: grandTotalTTC,
         status: invoice?.status || 'draft',
+<<<<<<< HEAD
         payment_method: paymentMethod,
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
         due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         created_at: invoice?.created_at || new Date().toISOString()
       };
@@ -335,6 +341,7 @@ export function InvoiceForm({ invoice, onClose, onSave }: InvoiceFormProps) {
                       ))}
                     </select>
                   </div>
+<<<<<<< HEAD
 
                   <div className="space-y-2">
                     <label className="flex items-center space-x-2 text-sm font-semibold text-blue-700">
@@ -352,6 +359,8 @@ export function InvoiceForm({ invoice, onClose, onSave }: InvoiceFormProps) {
                       <option value="Versement bancaire">Versement bancaire</option>
                     </select>
                   </div>
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                 </div>
               </div>
 

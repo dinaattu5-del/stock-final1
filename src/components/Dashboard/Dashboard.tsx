@@ -1,15 +1,23 @@
+<<<<<<< HEAD
 import  { useEffect } from 'react';
+=======
+import React from 'react';
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 import { Package, Users, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
 import { StatsCard } from './StatsCard';
 import { RecentSalesChart } from './RecentSalesChart';
 import { useApp } from '../../context/AppContext';
 import { useStockAlerts } from '../../hooks/useStockAlerts';
+<<<<<<< HEAD
 import { supabase } from '../../lib/supabase'; // Import supabase
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
 
 export function Dashboard() {
   const { state } = useApp();
   const alerts = useStockAlerts();
 
+<<<<<<< HEAD
   useEffect(() => {
     const audio = new Audio('data:audio/wav;base64,UklGRlpaCwBXQVZFZm10IBAAAAABAAEARKwAAQAgAZGF0YQAAgAIAAAAAAA=='); // Simple beep sound
 
@@ -26,6 +34,8 @@ export function Dashboard() {
     };
   }, []);
 
+=======
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
   const totalRevenue = state.sales.reduce((sum, sale) => sum + sale.total, 0);
   const lowStockCount = alerts.length;
   const recentSales = state.sales.slice(-5);
@@ -102,7 +112,11 @@ export function Dashboard() {
                   <p className="text-sm text-gray-600">{product.category}</p>
                 </div>
                 <div className="text-right">
+<<<<<<< HEAD
                   <p className="font-semibold text-gray-900">€{product.sale_price_ttc}</p>
+=======
+                  <p className="font-semibold text-gray-900">€{product.price}</p>
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
                   <p className="text-sm text-gray-600">Stock: {product.stock}</p>
                 </div>
               </div>
@@ -110,6 +124,7 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+<<<<<<< HEAD
 
       {/* Section Dernières Commandes */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-6">
@@ -142,3 +157,8 @@ export function Dashboard() {
 }
 
 export default Dashboard;
+=======
+    </div>
+  );
+}
+>>>>>>> d99568ca8c711cd7b98459535f7510ace053f5aa
